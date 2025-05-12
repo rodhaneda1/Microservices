@@ -7,54 +7,57 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microservices.Application.Querys;
 
-public class GetAssetValueHandlerTests
+namespace Microservices.UnitTest.Application
 {
-    private readonly Mock<IMapper> _mapperMock;
-    private readonly Mock<ILogger<GetAssetValueHandler>> _loggerMock;
-    private readonly GetAssetValueHandler _handler;
-
-    public GetAssetValueHandlerTests()
+    public class GetAssetValueHandlerTests
     {
-        _mapperMock = new Mock<IMapper>();
-        _loggerMock = new Mock<ILogger<GetAssetValueHandler>>();
-        _handler = new GetAssetValueHandler(_mapperMock.Object, _loggerMock.Object);
-    }
+        private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<ILogger<GetAssetValueHandler>> _loggerMock;
+        private readonly GetAssetValueHandler _handler;
 
-    [Fact]
-    public async Task Handle_ValidRequest_ReturnsCorrectFinalValue()
-    {
-        // Arrange
-        var request = new GetAssetValueRequest
+        public GetAssetValueHandlerTests()
         {
-            InitialValue = 1000m,
-            CDI = 0.1m,
-            BankFee = 0.05m
-        };
+            _mapperMock = new Mock<IMapper>();
+            _loggerMock = new Mock<ILogger<GetAssetValueHandler>>();
+            _handler = new GetAssetValueHandler(_mapperMock.Object, _loggerMock.Object);
+        }
 
-        var response = new GetAssetValueResponse
+        [Fact]
+        public async Task Handle_ValidRequest_ReturnsCorrectFinalValue()
         {
-            InitialValue = request.InitialValue,
-            CDI = request.CDI,
-            BankFee = request.BankFee
-        };
+            // Arrange
+            var request = new GetAssetValueRequest
+            {
+                InitialValue = 1000m,
+                CDI = 0.1m,
+                BankFee = 0.05m
+            };
 
-        _mapperMock.Setup(m => m.Map<GetAssetValueResponse>(request)).Returns(response);
+            var response = new GetAssetValueResponse
+            {
+                InitialValue = request.InitialValue,
+                CDI = request.CDI,
+                BankFee = request.BankFee
+            };
 
-        // Act
-        var result = await _handler.Handle(request, CancellationToken.None);
+            _mapperMock.Setup(m => m.Map<GetAssetValueResponse>(request)).Returns(response);
 
-        // Assert
-        var expectedFinalValue = request.InitialValue * (1 + (request.CDI * request.BankFee));
-        Assert.Equal(expectedFinalValue, result.FinalValue);
-        Assert.Equal(request.InitialValue, result.InitialValue);
-        Assert.Equal(request.CDI, result.CDI);
-        Assert.Equal(request.BankFee, result.BankFee);
-    }
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
 
-    [Fact]
-    public async Task Handle_NullRequest_ThrowsArgumentNullException()
-    {
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _handler.Handle(null, CancellationToken.None));
+            // Assert
+            var expectedFinalValue = request.InitialValue * (1 + (request.CDI * request.BankFee));
+            Assert.Equal(expectedFinalValue, result.FinalValue);
+            Assert.Equal(request.InitialValue, result.InitialValue);
+            Assert.Equal(request.CDI, result.CDI);
+            Assert.Equal(request.BankFee, result.BankFee);
+        }
+
+        [Fact]
+        public async Task Handle_NullRequest_ThrowsArgumentNullException()
+        {
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _handler.Handle(null, CancellationToken.None));
+        }
     }
 }
