@@ -1,0 +1,8 @@
+﻿apiVersion: v1
+metadata:
+    name: microservices-api
+    namespace: ms-api1-d
+data:
+type: Opaque
+stringData:
+    MicroservicesSettings_timeout: 9000
