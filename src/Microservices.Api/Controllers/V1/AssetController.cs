@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -15,21 +16,23 @@ namespace Microservices.Api.Controllers.V1
         private readonly IMediator _mediator;
 
         public AssetController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+            =>_mediator = mediator;
 
         [HttpGet]
         public async Task<IActionResult> GetAssetValueAsync([FromQuery] GetAssetValueRequest request)
         {
-            if (request == null)
+            try
             {
-                return BadRequest("Invalid request");
+                return Ok(await _mediator.Send(request));
             }
-
-            var result = await _mediator.Send(request);
-            
-            return Ok(result);
+            catch (ArgumentNullException)
+            {
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
