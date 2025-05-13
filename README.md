@@ -39,11 +39,12 @@ A .NET 8-based microservices solution for asset value calculation, featuring Med
 
 ## Usage
 
-Send a POST request to the `/api/v1/asset/value` endpoint with the following JSON body:
+Send a POST request to the `/api/v1/asset/value` endpoint with parameters: "initialValue": 1000.0, "cdi": 0.13, "bankFee": 0.01 
 
 
 **Response:**
-   
+
+{ "finalValue": 1013.0, "initialValue": 1000.0, "cdi": 0.13, "bankFee": 0.01 }   
 
 ## Project Structure
 
