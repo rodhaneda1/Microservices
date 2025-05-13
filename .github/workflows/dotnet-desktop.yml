@@ -58,6 +58,8 @@ jobs:
     env:
       Solution_Name: Microservices.sln
       Test_Project_Path: Microservices.UnitTest.csproj
+      Wap_Project_Directory: src/Microservices.Package
+      Wap_Project_Path: src/Microservices.Package/Microservices.Package.wapproj
 
     steps:
     - name: Checkout
