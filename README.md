@@ -55,8 +55,3 @@ Send a POST request to the `/api/v1/asset/value` endpoint with parameters: "init
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-[MIT](LICENSE)
-   
