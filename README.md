@@ -26,15 +26,15 @@ A .NET 8-based microservices solution for asset value calculation, featuring Med
 ### Setup
 
 1. **Clone the repository:**
+   https://github.com/rodhaneda1/Microservices
+
+3. **Restore dependencies:**
+
+
+4. **Build the solution:**
    
 
-2. **Restore dependencies:**
-
-
-3. **Build the solution:**
-   
-
-4. **Run the API:**
+5. **Run the API:**
    
 
 ## Usage
